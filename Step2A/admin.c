@@ -24,12 +24,12 @@ static struct termios old, new;
 //clrscr() function definition
 // #include <stdlib.h>
 void ClrScr(void){
-    system("clear");
+	system("clear");
 }
 
 
 void Gotoxy(int x,int y)    {
-    printf("%c[%d;%df",0x1B,y,x);
+	printf("%c[%d;%df",0x1B,y,x);
 }
 
 
@@ -37,27 +37,27 @@ void Gotoxy(int x,int y)    {
 // #include <stdio.h>
 // #include <stdlib.h>
 void initTermios(int echo) {
-    tcgetattr(0, &old); //grab old terminal i/o settings
-    new = old; //make new settings same as old settings
-    new.c_lflag &= ~ICANON; //disable buffered i/o
-    new.c_lflag &= echo ? ECHO : ~ECHO; //set echo mode
-    tcsetattr(0, TCSANOW, &new); //apply terminal io settings
+	tcgetattr(0, &old); //grab old terminal i/o settings
+	new = old; //make new settings same as old settings
+	new.c_lflag &= ~ICANON; //disable buffered i/o
+	new.c_lflag &= echo ? ECHO : ~ECHO; //set echo mode
+	tcsetattr(0, TCSANOW, &new); //apply terminal io settings
 }
 
 
 /* Restore old terminal i/o settings */
 void resetTermios(void) {
-    tcsetattr(0, TCSANOW, &old);
+	tcsetattr(0, TCSANOW, &old);
 }
 
 
 /* Read 1 character - echo defines echo mode */
 char getch_(int echo) {
-    char ch;
-    initTermios(echo);
-    ch = getchar();
-    resetTermios();
-    return ch;
+	char ch;
+	initTermios(echo);
+	ch = getchar();
+	resetTermios();
+	return ch;
 }
 
 
@@ -66,7 +66,7 @@ Read 1 character without echo
 getch() function definition.
 */
 char Getch(void) {
-    return getch_(0);
+	return getch_(0);
 }
 
 
@@ -75,24 +75,24 @@ Read 1 character with echo
 getche() function definition.
 */
 char GetchE(void) {
-    return getch_(1);
+	return getch_(1);
 }
 
 
 // permet de supprimer le cr qui placé dans la chaine lors d'un fgets
 void DelNewLine(char *Chaine){
-    Chaine[strlen(Chaine)-1] = 0;
+	Chaine[strlen(Chaine)-1] = 0;
 }
 
 
 void MonPrintf(char* tempo, int espace,int taille ){
-    int Count;
-    printf("%s",tempo); 
-    Count = espace-taille;
-    while ( Count>0 ){
-        printf(" ");
-        Count--;
-    }
+	int Count;
+	printf("%s",tempo); 
+	Count = espace-taille;
+	while ( Count>0 ){
+		printf(" ");
+		Count--;
+	}
 }
 
 
@@ -192,14 +192,14 @@ void CreationAjoutVehiculeHV (char *NomFichier,struct VehiculeHV  *UnRecord )
 }
 
 
-void AfficheFacture(struct FactureLM *UneFacture){
-    char Tampon[80];
-    sprintf(Tampon,"%d",UneFacture->NumeroFacturation ); MonPrintf(Tampon,4,strlen(Tampon));
-    sprintf(Tampon,"%s",UneFacture->Acheteur ); MonPrintf(Tampon,60,strlen(Tampon));
-    sprintf(Tampon,"%d",UneFacture->Quantite  ); MonPrintf(Tampon,4,strlen(Tampon));
-    sprintf(Tampon,"%d",UneFacture->Reference); MonPrintf(Tampon,4,strlen(Tampon));
+void AfficheFacture(struct FactureHV *UneFacture){
+	char Tampon[80];
+	sprintf(Tampon,"%d",UneFacture->NumeroFacturation ); MonPrintf(Tampon,4,strlen(Tampon));
+	sprintf(Tampon,"%s",UneFacture->Acheteur ); MonPrintf(Tampon,60,strlen(Tampon));
+	sprintf(Tampon,"%d",UneFacture->Quantite  ); MonPrintf(Tampon,4,strlen(Tampon));
+	sprintf(Tampon,"%d",UneFacture->Reference); MonPrintf(Tampon,4,strlen(Tampon));
 
-    printf("\n");
+	printf("\n");
 }
 
 
@@ -287,21 +287,21 @@ int main()
    case '1': 
              {
               struct VehiculeHV   UnRecord ;
-         FILE *sortie ;
+ 	     FILE *sortie ;
              char Redo ;
-        
+		
              Redo='y' ;
-        while ( Redo=='Y' || Redo=='y')
-        { 
+ 	    while ( Redo=='Y' || Redo=='y')
+ 	    { 
              int Nombre ;
              Nombre= NombreVehiculesHV ("VehiculesHV") ;
-         SaiSieVehiculeHV (Nombre+1, &UnRecord ) ;
-         CreationAjoutVehiculeHV ("VehiculesHV",&UnRecord) ; 
-         printf("Encoder un autre (Y/N) ?)") ;
-         printf(">>") ; Redo=GetchE() ; printf("\n") ;
-       }
+  	     SaiSieVehiculeHV (Nombre+1, &UnRecord ) ;
+  	     CreationAjoutVehiculeHV ("VehiculesHV",&UnRecord) ; 
+  	     printf("Encoder un autre (Y/N) ?)") ;
+  	     printf(">>") ; Redo=GetchE() ; printf("\n") ;
+ 	   }
  
-         break ;    
+	     break ;	
              }
    case '2': ListingVehiculesHV ("VehiculesHV") ;
              break ;
@@ -320,11 +320,11 @@ int main()
             }
              break ;
    case '6': ListingFacturesHV("FactureHV") ;
-         break ;
+	     break ;
    case '7': AProposServeurHV("V 1","Herman","Vanstapel") ;
              break ;
    
-    
+	
    case '8': exit(0) ; 
   }
  }
